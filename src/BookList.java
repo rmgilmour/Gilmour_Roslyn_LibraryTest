@@ -1,5 +1,5 @@
 /**
- * File Name: 	LibraryMTest.java
+ * File Name: 	LibraryTest.java
  * Author:     	Roslyn Gilmour
  * Course:		CEN-3024C
  * Professor:	Mary Walauskis
@@ -15,17 +15,34 @@
  * Date:		10/8/23
  */
 
-import java.io.Serializable;
 
 /**
  * No return class to encapsulate the data into getters and setters.
  */
-public class BookList implements Serializable {
+public class BookList{
     private String barcode;
     private String title;
     private String author;
     private String status;
     private String dueDate;
+
+/*
+    public BookList(int barcode, String title, String author, String status, String dueDate) {
+        this.barcode = barcode;
+        this.title = title;
+        this.author = author;
+        this.status = status;
+        this.dueDate = dueDate;
+    }
+
+    public BookList(int barcode, String title, String author, String status, String dueDate) {
+        this.barcode = 0;
+        this.title = "null";
+        this.author = "null";
+        this.status = "null";
+        this.dueDate = "null";
+    }
+*/
 
 
     public BookList() {
@@ -34,6 +51,14 @@ public class BookList implements Serializable {
         setAuthor(author);
         setStatus(status);
         setDueDate(dueDate);
+    }
+
+    public void editBookList(String barcode, String title, String author, String status, String dueDate) {
+        this.barcode = barcode;
+        this.title = title;
+        this.author = author;
+        this.status = status;
+        this.dueDate = dueDate;
     }
 
     /**
@@ -84,12 +109,15 @@ public class BookList implements Serializable {
     public void setAuthor(String author) { this.author = author;}
     /**
      * Method to get the status content.
-     * @return          Returns the content of status.
+     *
+     * @return Returns the content of status.
      */
     public String getStatus() { return status; }
     /**
      * Method to set the status content.
-     * @return          Returns the content of the item's status.
+     * @param status        Parameter to hold the content of
+     *                      the status and create an instance
+     *                      of status.
      */
     public void setStatus(String status) { this.status = status; }
     /**
@@ -105,6 +133,15 @@ public class BookList implements Serializable {
      */
     public void setDueDate(String dueDate) { this.dueDate = dueDate; }
 
+    public String toString() {
+        return barcode + "," + title + "," + author + "," + status + "," + dueDate;
+    }
+
+        
+    
+
 }
+
+
 
 

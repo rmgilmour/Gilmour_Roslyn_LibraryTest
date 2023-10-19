@@ -18,6 +18,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
 
+
 /**
  * No return class that contains the methods to process the
  * user's menu choices.
@@ -27,10 +28,10 @@ import java.util.*;
  *          checkout
  *          checkin
  */
-public class FileList {
+public class FileList extends BookList{
 
     static ArrayList<BookList> booksArray = new ArrayList<>();
-    private static ArrayList<BookList> books;
+    private static final ArrayList<BookList> books = booksArray;
 
     /**
      * ArrayList method to obtain the text file, scan the contents,
@@ -38,51 +39,58 @@ public class FileList {
      * in the array booksArray.
      * @param bookList                  Text file containing the list
      *                                  of string content.
-     * @return                          Returns the array containing the
-     *                                  list of items as objects.
-     * @throws FileNotFoundException    Exception to catch the condition
-     *                                  where the file is not found.
      */
-    public static ArrayList<BookList> read(File bookList) throws FileNotFoundException {
+    public static void read(File bookList) {
 
-        Scanner s = new Scanner(bookList);
+        String line;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(bookList));
 
-        while (s.hasNextLine()) {
-            String line = s.nextLine();
+            while ((line = br.readLine()) != null) {
+                String[] items = line.split(",");
+                BookList newList = getBookList(items);
+                booksArray.add(newList);
+            } // end while
 
-            String[] items = line.split(",");
-
-            // put all items into BookList object
-            //int barcode = Integer.parseInt(items[0]);
-            String barcode = items[0];
-            String title = items[1];
-            String author = items[2];
-            String status = items[3];
-            String dueDate = items[4];
-
-            BookList newList = new BookList();
-            newList.setBarcode(barcode);
-            newList.setTitle(title);
-            newList.setAuthor(author);
-            newList.setStatus(status);
-            newList.setDueDate(dueDate);
-            booksArray.add(newList);
-
-            System.out.println(newList.getBarcode());
-
-
-        } // end while
+        } catch(FileNotFoundException open) {
+            System.out.println("Unable to open.");
+        } catch (IOException read) {
+            System.out.println("Unable to read file.");
+        }
         System.out.println("File Read.");
         System.out.println();
 
-        return booksArray;
+        System.out.println("Number of books in list: " + booksArray.size());
+
     } // end read
+
+    /**
+     * Static method to access the array and store the variables
+     * into the array.
+     * @param items     array variable to access the list of
+     *                  items.
+     * @return          returns the updated array.
+     */
+    private static BookList getBookList(String[] items) {
+        String barcode = items[0];
+        String title = items[1];
+        String author = items[2];
+        String status = items[3];
+        String dueDate = items[4];
+
+        BookList newList = new BookList();
+        newList.setBarcode(barcode);
+        newList.setTitle(title);
+        newList.setAuthor(author);
+        newList.setStatus(status);
+        newList.setDueDate(dueDate);
+        return newList;
+    }
 
     /**
      * void method to list the contents of the array.
      */
-    public void list(File bookList) throws FileNotFoundException {
-
+    public static void list(File bookList) {
 
         System.out.printf("--------------------------------------------------" +
                 "--------------------------------------------------------%n");
@@ -91,17 +99,22 @@ public class FileList {
         System.out.printf("--------------------------------------------------" +
                 "--------------------------------------------------------%n");
 
-        Scanner s = new Scanner(bookList);
+        String line;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(bookList));
 
-        while (s.hasNextLine()) {
-            String line = s.nextLine();
+            while ((line = br.readLine()) != null) {
+                String[] items = line.split(",");
+                System.out.printf("| %-8s | %-35s | %-20s | %-15s | %-12s |%n",
+                                        items[0], items[1], items[2], items[3], items[4]);
+            } // end while
 
-            String[] items = line.split(",");
+        } catch(FileNotFoundException list) {
+            System.out.println("Unable to open.");
+        } catch (IOException listRead) {
+            System.out.println("Unable to read file.");
+        }
 
-            System.out.printf("| %-8s | %-35s | %-20s | %-15s | %-12s |%n", items[0], items[1], items[2], items[3], items[4]);
-
-
-        } // end while
         System.out.println();
         System.out.printf("--------------------------------------------------" +
                 "--------------------------------------------------------%n");
@@ -110,77 +123,119 @@ public class FileList {
 
     } // end list
 
+
     /**
      * void method to request the array, obtain from the user
      * which item they would like to delete.  The method then
      * deletes the item, updates the array, and prints the array.
-     * @param books            ArrayList parameter to obtain
-     *                              the contents of the array.
+     *
      */
-    public static void deleteItem(ArrayList<BookList> books) {
-
-       // String content = Files.readString(Paths.get(bookList.toURI()));
-       // LinkedList<String> newList = new LinkedList<>(Collections.singletonList(content));
-
-        // print each line
-        for(BookList str : books)
-            System.out.println(str);
+    public static void deleteItem() {
 
         int result;
         Scanner input = new Scanner(System.in);
-        System.out.println("Enter barcode number to be removed: ");
+        System.out.println("Enter the barcode you wish to remove: ");
         result = input.nextInt();
         String item = String.valueOf(result);
 
-       // Scanner s = new Scanner(String.valueOf(newList));
-        Scanner s = new Scanner(String.valueOf(books));
-        while (s.hasNextLine()) {
-            String line = s.nextLine();
+        // compare the item to be removed with the book list and remove it
+        booksArray.removeIf(book -> Objects.equals(book.getBarcode(), item));
 
-            String[] items = line.split(",");
+        int sz = booksArray.size();
+        for (int i = 0; i < sz; i++) {
+            System.out.println(booksArray.get(i).toString());
+
+        } // end for loop
+
+        UpdateArray(sz);
+
+        /*------------------------------------
+         try {
+            FileWriter fw = new FileWriter("BookList.txt");
+            Writer output = new BufferedWriter(fw);
+            for (int i=0; i<sz; i++) {
+                output.write(booksArray.get(i).toString() + ("\n"));
+            }
+            output.close();
+            fw.close();
+            System.out.println("File updated.");
+        } catch (IOException fos) {
+            System.out.println("fos error.");
+        }
+         */
+
+    } // end deleteItem
 
 
-            for (int i=0; i < items.length; i++) {
-                if (item.equals(items[i])){
-                   books.remove(result);
-                }
-            } // end for loop
-
-        } // end while
-        System.out.println(books);
-
-    } // end DeleteItem
 
     /**
      * void method to request the array, obtain from the user
-     * which item they would like to checkout.  The method then
+     * which item they would like to check out.  The method then
      * updates the status and the due date of the item, and
      * then updates the array.
-     * @param books            ArrayList parameter to obtain
-     *                              the contents of the array.
+     *
      */
-    public static void checkOut(ArrayList<BookList> books) throws IOException {
+    public static void checkOut() {
 
+        BookList book = new BookList();
 
-        //  String content = Files.readString(Paths.get(bookList.toURI()));
-
-     //   List<String> newList = Arrays.asList(content);
-
-        BookList obj = new BookList();
-        BookList newStatus = new BookList();
-        BookList due = new BookList();
-        BookList code = new BookList();
+        LocalDate date = LocalDate.now();
+        LocalDate newDate = date.plusDays(30);
+        String toDate = String.valueOf(newDate);
 
         Scanner input = new Scanner(System.in);
         int num;
         System.out.println("Enter barcode to checkout: ");
         num = input.nextInt();
-        String item = String.valueOf(num);
 
-        if (item.equals(code.getBarcode())) {
+     //   int item = num-1;
+    //    System.out.println("You selected: " + booksArray.get(item).toString());
+
+        String item = String.valueOf(num);
+        int j;
+        if (item.equals(book.getBarcode())) {
+            j = booksArray.indexOf(book);
+            System.out.println("You selected: " + booksArray.get(j).toString());
+            if (booksArray.contains(booksArray.get(j))) {
+                if (book.getDueDate() == null){
+                    book.setDueDate(toDate);
+                    book.setStatus("Out");
+                    System.out.println(book.getBarcode() + book.getTitle() +
+                            book.getAuthor() + book.getDueDate() + book.getStatus());
+                }
+            } else {
+                System.out.println("Invalid Selection.");
+            }
+        }
+
+
+
+        /*-------------------------------------------------------
+        if (booksArray.contains(booksArray.get(item))) {
+
+            book.setDueDate(toDate);
+            System.out.println(book.getDueDate());
+            book.setStatus("Checked Out");
+            System.out.println("Due date is: " + newDate);
+
+            System.out.println(booksArray.get(item));
+        } else {
+            System.out.println("Item not found.");
+        }
+      -------------------------------------------------*/
+
+
+      //  System.out.println(booksArray.get(item).toString());
+
+
+
+
+    /* --------------------------------------------
+        if (item.equals(booksArray.())) {
+            System.out.println(code.getBarcode());
             LocalDate date = LocalDate.now();
             LocalDate newDate = date.plusDays(30);
-            System.out.println("Item to checkout is: " + obj.getTitle());
+            System.out.println("Item to checkout is: " + book.getTitle());
             System.out.println("Due date is: " + newDate);
 
             due.setDueDate(String.valueOf(newDate));
@@ -188,19 +243,22 @@ public class FileList {
         } else {
             System.out.println("Item not found.");
         }
-       // return newList;
+    ------------------------------------------*/
+
+
+        int szOut = booksArray.size();
+        UpdateArray(szOut);
 
     } // end checkout
 
     /**
      * void method to request the array, obtain from the user
-     * which item they would like to checkin.  The method then
+     * which item they would like to check in.  The method then
      * updates the status and the due date of the item, and
      * then updates the array.
-     * @param books            ArrayList parameter to obtain
-     *                              the contents of the array.
+     *
      */
-    public static void checkIn(ArrayList<BookList> books) {
+    public static void checkIn(File bookList) {
 
         BookList inObj = new BookList();
         BookList inBarcode = new BookList();
@@ -216,14 +274,38 @@ public class FileList {
         if (item.equals(inBarcode.getBarcode())) {
             System.out.println("Item to checkin is: " + inObj.getTitle());
             inDue.setDueDate("null");
-            inStatus.setStatus("in");
+            inStatus.setStatus("In");
         } else {
-               System.out.println("Item not found.");
+            System.out.println("Item not found.");
         }
+
+        int szIn = booksArray.size();
+        UpdateArray(szIn);
     } // end checkin
 
+    private static void UpdateArray(int sz) {
+
+        try {
+            FileWriter fw = new FileWriter("BookList.txt");
+            Writer output = new BufferedWriter(fw);
+            for (int i=0; i<sz; i++) {
+                output.write(books.get(i).toString() + ("\n"));
+
+                booksArray = books;
+            }
+            output.close();
+            fw.close();
+            System.out.println("File updated.");
+        } catch (IOException fos) {
+            System.out.println("fos error.");
+        }
+    }
 
 
+    @Override
+    public void editBookList(String barcode, String title, String author, String status, String dueDate) {
+        super.editBookList(barcode, title, author, status, dueDate);
+    }
 } // end FileList
 
 
