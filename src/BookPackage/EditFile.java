@@ -147,11 +147,6 @@ public class EditFile extends BookList{
         }
 
         int sz = booksArray.size();
-        for (BookList bookList : booksArray) {
-            System.out.println(bookList.toString());
-
-        } // end for loop
-
         UpdateArray(sz);
 
     } // end deleteItem
@@ -190,60 +185,42 @@ public class EditFile extends BookList{
                             + "Barcode: " + book.getBarcode() +"\nTitle: "+ book.getTitle() +"  Author: "
                             + book.getAuthor() +"\nStatus: "+ book.getStatus()
                             +"        Due Date: "+ book.getDueDate());
+                    int sz = booksArray.size();
+                    String cde = book.getBarcode();
+                    String tle = book.getTitle();
+                    String auth = book.getAuthor();
+                    String stat = book.getStatus();
+                    String dte = book.getDueDate();
+                    String[] bookUpdate = new String[]{cde,tle,auth,stat,dte};
+                //    editRecord(sz,cde,tle,auth,stat,dte);
+                    editRecord(sz,bookUpdate);
+
+                    booksArray.removeIf(obj -> Objects.equals(obj.getBarcode(), item));
+
+                    BookList newBook = new BookList();
+                    newBook.editBookList(cde,tle,auth,stat,dte);
+                    booksArray.add(newBook);
+
+                    UpdateArray(sz);
+
                 }
+
             }
         }
-
+/*-------------------------------------------------
         System.out.println();
         for (BookList bookList : booksArray) {
             System.out.println(bookList.toString());
         }
-
-        int sz = booksArray.size();
-        editRecord(sz);
-
-    //    UpdateArray(sz);
-/*
-        int j = booksArray.indexOf(book);
-        if (item.equals(book.getBarcode())) {
-            System.out.println("You selected: " + booksArray.get(j).toString());
-            if (booksArray.contains(booksArray.get(j))) {
-                book.setDueDate(toDate);
-                book.setStatus("Out");
-                System.out.println("Status: " + book.getStatus() + " Due Date: " + book.getDueDate());
-
-
-            } else {
-                System.out.println("Invalid Selection.");
-            }
-        }
-      */
-
-
-
-    /* --------------------------------------------
-        if (item.equals(booksArray.())) {
-            System.out.println(code.getBarcode());
-            LocalDate date = LocalDate.now();
-            LocalDate newDate = date.plusDays(30);
-            System.out.println("Item to checkout is: " + book.getTitle());
-            System.out.println("Due date is: " + newDate);
-
-            due.setDueDate(String.valueOf(newDate));
-            newStatus.setStatus("Checked Out");
-        } else {
-            System.out.println("Item not found.");
-        }
-    ------------------------------------------*/
-
-
-    //    int szOut = booksArray.size();
-    //    UpdateArray(szOut);
-
+-----------------------------------------------------*/
     } // end checkout
 
 
-    public static void editRecord(int sz) {
+    public static void editRecord(int sz, String[] bookUpdate) {
+
+        String cde = String.valueOf(bookUpdate[0]);
+        String tle = String.valueOf(bookUpdate[1]);
+
         String tempFile = "temp.txt";
         File oldFile = new File("BookList.txt");
         File newFile = new File(tempFile);
