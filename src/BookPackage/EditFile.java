@@ -125,6 +125,7 @@ public class EditFile extends BookList{
 
         int result;
         int option;
+        String[] array = new String[]{};
 
         Scanner sc = new Scanner(System.in);
         Scanner sc1 = new Scanner(System.in);
@@ -146,8 +147,8 @@ public class EditFile extends BookList{
         }
 
         int sz = booksArray.size();
-        for (int i = 0; i < sz; i++) {
-            System.out.println(booksArray.get(i).toString());
+        for (BookList bookList : booksArray) {
+            System.out.println(bookList.toString());
 
         } // end for loop
 
@@ -175,16 +176,35 @@ public class EditFile extends BookList{
         System.out.print("Enter barcode to checkout: ");
         num = input.nextInt();
         String item = String.valueOf(num);
+        int i;
+        for (i=0; i<booksArray.size(); i++) {
+            String[] array = String.valueOf(booksArray.get(i)).split(",");
+            for(String a : array) {
+                if (Objects.equals(a, item)) {
+                    book.setBarcode(item);
+                    book.setTitle(String.valueOf(array[1]));
+                    book.setAuthor(String.valueOf(array[2]));
+                    book.setStatus("Out");
+                    book.setDueDate(toDate);
+                    System.out.println("Checking out: \n"
+                            + "Barcode: " + book.getBarcode() +"\nTitle: "+ book.getTitle() +",  Author: "
+                            + book.getAuthor() +"\nStatus: "+ book.getStatus()
+                            +",        Due Date: "+ book.getDueDate());
+                }
+            }
 
-        book.setDueDate(toDate);
-        book.setStatus("Out");
-        System.out.println("Barcode: "+ book.getBarcode() + " Title: " + book.getTitle() +
-                "Author: "+ book.getAuthor() + " Status: " + book.getStatus() + " Due Date: " + book.getDueDate());
+        }
+
+        System.out.println();
+        for (BookList bookList : booksArray) {
+            System.out.println(bookList.toString());
+        }
 
         int sz = booksArray.size();
         editRecord(sz);
-    //    UpdateArray(sz);
 
+    //    UpdateArray(sz);
+/*
         int j = booksArray.indexOf(book);
         if (item.equals(book.getBarcode())) {
             System.out.println("You selected: " + booksArray.get(j).toString());
@@ -198,26 +218,7 @@ public class EditFile extends BookList{
                 System.out.println("Invalid Selection.");
             }
         }
-
-
-
-        /*-------------------------------------------------------
-        if (booksArray.contains(booksArray.get(item))) {
-
-            book.setDueDate(toDate);
-            System.out.println(book.getDueDate());
-            book.setStatus("Checked Out");
-            System.out.println("Due date is: " + newDate);
-
-            System.out.println(booksArray.get(item));
-        } else {
-            System.out.println("Item not found.");
-        }
-      -------------------------------------------------*/
-
-
-      //  System.out.println(booksArray.get(item).toString());
-
+      */
 
 
 

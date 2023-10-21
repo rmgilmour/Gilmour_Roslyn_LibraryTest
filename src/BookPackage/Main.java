@@ -79,10 +79,10 @@ public class Main {
      * @return      returns the user's text choice.
      */
     public static char getChoice(){
-        char result;
-        Scanner input = new Scanner(System.in);
         System.out.println();
         System.out.println("MENU OPTIONS: ");
+        char result;
+        Scanner input = new Scanner(System.in);
         System.out.println("R - Read the file");
         System.out.println("L - List all items");
         System.out.println("A - Add a new item");

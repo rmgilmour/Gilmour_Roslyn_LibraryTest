@@ -26,32 +26,15 @@ public class BookList{
     private String status;
     private String dueDate;
 
-/*
-    public BookPackage.BookList(int barcode, String title, String author, String status, String dueDate) {
-        this.barcode = barcode;
-        this.title = title;
-        this.author = author;
-        this.status = status;
-        this.dueDate = dueDate;
-    }
-
-    public BookPackage.BookList(int barcode, String title, String author, String status, String dueDate) {
-        this.barcode = 0;
-        this.title = "null";
-        this.author = "null";
-        this.status = "null";
-        this.dueDate = "null";
-    }
-*/
-
-
+    /**
+     * Method to set the arrayList of items
+     */
     public BookList() {
         setBarcode(barcode);
         setTitle(title);
         setAuthor(author);
         setStatus(status);
         setDueDate(dueDate);
-        getBarcode();
     }
 
      /**
@@ -130,6 +113,14 @@ public class BookList{
         return barcode + "," + title + "," + author + "," + status + "," + dueDate;
     }
 
+    /**
+     * Void method to set the bookList
+     * @param barcode       Parameter to hold the due date
+     * @param title         Parameter to hold the title
+     * @param author        Parameter to hold the author
+     * @param status        Parameter to hold the status
+     * @param dueDate       Parameter to hold the dueDate
+     */
     public void editBookList(String barcode, String title, String author, String status, String dueDate) {
         this.barcode = barcode;
         this.title = title;
@@ -137,7 +128,6 @@ public class BookList{
         this.status = status;
         this.dueDate = dueDate;
     }
-
 
 }
 
