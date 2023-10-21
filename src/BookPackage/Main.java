@@ -33,19 +33,11 @@ public class Main {
         System.out.println("Welcome to the Library!");
         System.out.println();
 
-
         // get file name to open
-        //File bookList = new File("BookList.txt");
-       // System.out.println("Reading file: " + bookList);
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the file name: ");
         File bookList = new File(scanner.nextLine());
 
-        ArrayList<BookList> books = FileList.booksArray;
-
-        /**
-         * Method to obtain the user's menu choice.
-         */
         char choice;
         do {
             choice = getChoice();
@@ -99,6 +91,7 @@ public class Main {
         System.out.println("I - Checkin an item");
         System.out.println("Q - Quit program\n");
         System.out.print("Enter selection: ");
+        System.out.println();
         result = input.nextLine().toUpperCase().charAt(0); // converts the character entered into a capital letter
 
         return result;

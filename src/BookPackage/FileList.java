@@ -139,11 +139,9 @@ public class FileList extends BookList{
         Scanner scanner2 = new Scanner(System.in);
         System.out.print("Enter the barcode:");
         code = scanner.nextInt();
-        System.out.println();
         String addCode = String.valueOf(code);
         System.out.print("Enter the title:");
         addTitle = scanner1.nextLine();
-        System.out.println();
         System.out.print("Enter the author:");
         addAuthor = scanner2.nextLine();
         System.out.println();
@@ -172,7 +170,7 @@ public class FileList extends BookList{
         Scanner sc = new Scanner(System.in);
         Scanner sc1 = new Scanner(System.in);
         System.out.println("1 - Search by barcode. \n2 - Search by title:. ");
-        System.out.println("Enter option: ");
+        System.out.print("Enter option: ");
         option = sc.nextInt();
         System.out.println();
         if (option == 1) {
@@ -221,24 +219,19 @@ public class FileList extends BookList{
         LocalDate newDate = date.plusDays(30);
         String toDate = String.valueOf(newDate);
 
-        Scanner input = new Scanner(System.in);
         int num;
-        System.out.println("Enter barcode to checkout: ");
+        Scanner input = new Scanner(System.in);
+        System.out.print("Enter barcode to checkout: ");
         num = input.nextInt();
-
-
         String item = String.valueOf(num);
+
         int j;
         if (item.equals(book.getBarcode())) {
             j = booksArray.indexOf(book);
             System.out.println("You selected: " + booksArray.get(j).toString());
             if (booksArray.contains(booksArray.get(j))) {
-                if (book.getDueDate() == null){
-                    book.setDueDate(toDate);
-                    book.setStatus("Out");
-                    System.out.println(book.getBarcode() + book.getTitle() +
-                            book.getAuthor() + book.getDueDate() + book.getStatus());
-                }
+                book.setDueDate(toDate);
+                book.setStatus("Out");
             } else {
                 System.out.println("Invalid Selection.");
             }
