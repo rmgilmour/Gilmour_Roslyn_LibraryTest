@@ -1,9 +1,10 @@
+package BookPackage;
 /**
  * File Name: 	LibraryTest.java
  * Author:     	Roslyn Gilmour
  * Course:		CEN-3024C
  * Professor:	Mary Walauskis
- * Description:	This program will open a String file called BookList.txt.
+ * Description:	This program will open a String file called BookPackage.BookList.txt.
  * 				It will call the readFile method to read the file,
  * 				and return the list.
  * 				The main method will then call the ? method
@@ -15,9 +16,8 @@
 import java.io.*;
 import java.util.*;
 
-
 /**
- * Main class contains main method
+ * BookPackage.Main class contains main method
  */
 public class Main {
 
@@ -28,14 +28,20 @@ public class Main {
      */
     public static void main(String[] args)  {
 
-        // get file name to open
+        System.out.println();
+        System.out.println();
+        System.out.println("Welcome to the Library!");
+        System.out.println();
 
-        File bookList = new File("BookList.txt");
-        System.out.println("Reading file: " + bookList);
+
+        // get file name to open
+        //File bookList = new File("BookList.txt");
+       // System.out.println("Reading file: " + bookList);
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the file name: ");
+        File bookList = new File(scanner.nextLine());
 
         ArrayList<BookList> books = FileList.booksArray;
-
-
 
         /**
          * Method to obtain the user's menu choice.
@@ -52,6 +58,9 @@ public class Main {
                 case 'L': // list all items in the file
                     FileList.list(bookList);
                     break;
+                case 'A': // add a new item
+                    FileList.addItem();
+                    break;
                 case 'D': // delete or remove item from file
                    FileList.deleteItem();
                     break;
@@ -59,7 +68,7 @@ public class Main {
                     FileList.checkOut();
                     break;
                 case 'I': // Checkin an item
-                    FileList.checkIn(bookList);
+                    FileList.checkIn();
                     break;
                 case 'Q': //quit
                     System.out.println("Thank you. Have a nice day.");
@@ -83,14 +92,15 @@ public class Main {
         System.out.println();
         System.out.println("MENU OPTIONS: ");
         System.out.println("R - Read the file");
-        System.out.println("L - List all items in the file");
-        System.out.println("D - Delete item from the file");
+        System.out.println("L - List all items");
+        System.out.println("A - Add a new item");
+        System.out.println("D - Delete an item");
         System.out.println("C - Checkout an item");
         System.out.println("I - Checkin an item");
         System.out.println("Q - Quit program\n");
-        System.out.println("Enter selection: ");
+        System.out.print("Enter selection: ");
         result = input.nextLine().toUpperCase().charAt(0); // converts the character entered into a capital letter
 
         return result;
     } // end method getChoice
-} // end Main
+} // end BookPackage.Main

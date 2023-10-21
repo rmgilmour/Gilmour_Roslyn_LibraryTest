@@ -1,4 +1,4 @@
-/**
+package BookPackage; /**
  * File Name: 	LibraryTest.java
  * Author:     	Roslyn Gilmour
  * Course:		CEN-3024C
@@ -27,7 +27,7 @@ public class BookList{
     private String dueDate;
 
 /*
-    public BookList(int barcode, String title, String author, String status, String dueDate) {
+    public BookPackage.BookList(int barcode, String title, String author, String status, String dueDate) {
         this.barcode = barcode;
         this.title = title;
         this.author = author;
@@ -35,7 +35,7 @@ public class BookList{
         this.dueDate = dueDate;
     }
 
-    public BookList(int barcode, String title, String author, String status, String dueDate) {
+    public BookPackage.BookList(int barcode, String title, String author, String status, String dueDate) {
         this.barcode = 0;
         this.title = "null";
         this.author = "null";
@@ -51,17 +51,10 @@ public class BookList{
         setAuthor(author);
         setStatus(status);
         setDueDate(dueDate);
+        getBarcode();
     }
 
-    public void editBookList(String barcode, String title, String author, String status, String dueDate) {
-        this.barcode = barcode;
-        this.title = title;
-        this.author = author;
-        this.status = status;
-        this.dueDate = dueDate;
-    }
-
-    /**
+     /**
      * Method to get the barcode.
      * @return      Returns the barcode.
      */
@@ -137,8 +130,14 @@ public class BookList{
         return barcode + "," + title + "," + author + "," + status + "," + dueDate;
     }
 
-        
-    
+    public void editBookList(String barcode, String title, String author, String status, String dueDate) {
+        this.barcode = barcode;
+        this.title = title;
+        this.author = author;
+        this.status = status;
+        this.dueDate = dueDate;
+    }
+
 
 }
 
