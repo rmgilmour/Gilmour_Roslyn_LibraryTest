@@ -187,12 +187,11 @@ public class EditFile extends BookList{
                     book.setStatus("Out");
                     book.setDueDate(toDate);
                     System.out.println("Checking out: \n"
-                            + "Barcode: " + book.getBarcode() +"\nTitle: "+ book.getTitle() +",  Author: "
+                            + "Barcode: " + book.getBarcode() +"\nTitle: "+ book.getTitle() +"  Author: "
                             + book.getAuthor() +"\nStatus: "+ book.getStatus()
-                            +",        Due Date: "+ book.getDueDate());
+                            +"        Due Date: "+ book.getDueDate());
                 }
             }
-
         }
 
         System.out.println();
