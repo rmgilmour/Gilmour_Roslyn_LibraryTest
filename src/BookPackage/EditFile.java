@@ -1,4 +1,5 @@
-package BookPackage; /**
+package BookPackage;
+/*
  * File Name: 	LibraryTest.java
  * Author:     	Roslyn Gilmour
  * Course:		CEN-3024C
@@ -22,17 +23,14 @@ import java.util.*;
 /**
  * No return class that contains the methods to process the
  * user's menu choices.
- *          read
- *          list
- *          delete
- *          checkout
- *          checkin
+ *          read the file
+ *          delete an item
+ *          checkout an item
+ *          checkin an item
  */
-public class FileList extends BookList{
+public class EditFile extends BookList{
 
     static ArrayList<BookList> booksArray = new ArrayList<>();
-
-    static ArrayList<BookList> books = new ArrayList<>();
 
     /**
      * ArrayList method to obtain the text file, scan the contents,
@@ -88,46 +86,7 @@ public class FileList extends BookList{
         return newList;
     }
 
-    /**
-     * void method to list the contents of the array.
-     */
-    public static void list(File bookList) {
-
-        System.out.printf("--------------------------------------------------" +
-                "--------------------------------------------------------%n");
-        System.out.printf("|    ID    |    Title                            |" +
-                "    Author            |    Status       |   Due Date   |%n");
-        System.out.printf("--------------------------------------------------" +
-                "--------------------------------------------------------%n");
-
-        String line;
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(bookList));
-
-            while ((line = br.readLine()) != null) {
-                String[] items = line.split(",");
-                System.out.printf("| %-8s | %-35s | %-20s | %-15s | %-12s |%n",
-                                        items[0], items[1], items[2], items[3], items[4]);
-            } // end while
-
-        } catch(FileNotFoundException list) {
-            System.out.println("Unable to open.");
-        } catch (IOException listRead) {
-            System.out.println("Unable to read file.");
-        }
-
-        System.out.println();
-        System.out.printf("--------------------------------------------------" +
-                "--------------------------------------------------------%n");
-        System.out.println();
-        System.out.println();
-
-    } // end list
-
-
     public static void addItem() {
-
-      //  ArrayList<BookList> booksAdd = new ArrayList<>();
 
         int code;
         String addTitle;
@@ -137,12 +96,12 @@ public class FileList extends BookList{
         Scanner scanner = new Scanner(System.in);
         Scanner scanner1 = new Scanner(System.in);
         Scanner scanner2 = new Scanner(System.in);
-        System.out.print("Enter the barcode:");
+        System.out.print("Enter the barcode: ");
         code = scanner.nextInt();
         String addCode = String.valueOf(code);
-        System.out.print("Enter the title:");
+        System.out.print("Enter the title: ");
         addTitle = scanner1.nextLine();
-        System.out.print("Enter the author:");
+        System.out.print("Enter the author: ");
         addAuthor = scanner2.nextLine();
         System.out.println();
 
@@ -169,7 +128,7 @@ public class FileList extends BookList{
 
         Scanner sc = new Scanner(System.in);
         Scanner sc1 = new Scanner(System.in);
-        System.out.println("1 - Search by barcode. \n2 - Search by title:. ");
+        System.out.println("1 - Search by barcode \n2 - Search by title ");
         System.out.print("Enter option: ");
         option = sc.nextInt();
         System.out.println();
@@ -185,14 +144,6 @@ public class FileList extends BookList{
         } else {
             System.out.println("Invalid Selection.");
         }
-
-    //    Scanner input = new Scanner(System.in);
-    //    System.out.println("Enter the barcode you wish to remove: ");
-    //    result = input.nextInt();
-    //    String item = String.valueOf(result);
-
-        // compare the item to be removed with the book list and remove it
-    //    booksArray.removeIf(book -> Objects.equals(book.getBarcode(), item));
 
         int sz = booksArray.size();
         for (int i = 0; i < sz; i++) {
@@ -225,13 +176,24 @@ public class FileList extends BookList{
         num = input.nextInt();
         String item = String.valueOf(num);
 
-        int j;
+        book.setDueDate(toDate);
+        book.setStatus("Out");
+        System.out.println("Barcode: "+ book.getBarcode() + " Title: " + book.getTitle() +
+                "Author: "+ book.getAuthor() + " Status: " + book.getStatus() + " Due Date: " + book.getDueDate());
+
+        int sz = booksArray.size();
+        editRecord(sz);
+    //    UpdateArray(sz);
+
+        int j = booksArray.indexOf(book);
         if (item.equals(book.getBarcode())) {
-            j = booksArray.indexOf(book);
             System.out.println("You selected: " + booksArray.get(j).toString());
             if (booksArray.contains(booksArray.get(j))) {
                 book.setDueDate(toDate);
                 book.setStatus("Out");
+                System.out.println("Status: " + book.getStatus() + " Due Date: " + book.getDueDate());
+
+
             } else {
                 System.out.println("Invalid Selection.");
             }
@@ -275,10 +237,40 @@ public class FileList extends BookList{
     ------------------------------------------*/
 
 
-        int szOut = booksArray.size();
-        UpdateArray(szOut);
+    //    int szOut = booksArray.size();
+    //    UpdateArray(szOut);
 
     } // end checkout
+
+
+    public static void editRecord(int sz) {
+        String tempFile = "temp.txt";
+        File oldFile = new File("BookList.txt");
+        File newFile = new File(tempFile);
+        Scanner x;
+
+        try {
+            FileWriter fw = new FileWriter(tempFile, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+
+            x = new Scanner(new File("BookList.txt"));
+            x.useDelimiter("[,\n]");
+
+            for (int i=0; i<sz; i++) {
+                pw.write(booksArray.get(i).toString() + ("\n"));
+            }
+            x.close();
+            pw.flush();
+            pw.close();
+            oldFile.delete();
+            File dump = new File("BookList.txt");
+            newFile.renameTo(dump);
+
+        } catch (IOException e) {
+            System.out.println("Update Record error - " + e);
+        }
+    }
 
     /**
      * void method to request the array, obtain from the user

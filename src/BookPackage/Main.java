@@ -45,22 +45,22 @@ public class Main {
             switch (choice) {
 
                 case 'R': // read file
-                    FileList.read(bookList);
+                    EditFile.read(bookList);
                     break;
                 case 'L': // list all items in the file
-                    FileList.list(bookList);
+                    ListFile.list(bookList);
                     break;
                 case 'A': // add a new item
-                    FileList.addItem();
+                    EditFile.addItem();
                     break;
                 case 'D': // delete or remove item from file
-                   FileList.deleteItem();
+                   EditFile.deleteItem();
                     break;
                 case 'C': // Checkout an item
-                    FileList.checkOut();
+                    EditFile.checkOut();
                     break;
                 case 'I': // Checkin an item
-                    FileList.checkIn();
+                    EditFile.checkIn();
                     break;
                 case 'Q': //quit
                     System.out.println("Thank you. Have a nice day.");
@@ -91,9 +91,8 @@ public class Main {
         System.out.println("I - Checkin an item");
         System.out.println("Q - Quit program\n");
         System.out.print("Enter selection: ");
-        System.out.println();
         result = input.nextLine().toUpperCase().charAt(0); // converts the character entered into a capital letter
-
+        System.out.println();
         return result;
     } // end method getChoice
 } // end BookPackage.Main
