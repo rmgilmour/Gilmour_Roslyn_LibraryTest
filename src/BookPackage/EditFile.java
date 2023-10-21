@@ -107,10 +107,8 @@ public class EditFile extends BookList{
 
         BookList newBook = new BookList();
         newBook.editBookList(addCode, addTitle, addAuthor, addStatus, addDate);
-
         booksArray.add(newBook);
 
-       // booksArray.addAll(booksAdd);
         int sz = booksArray.size();
         UpdateArray(sz);
 
@@ -129,7 +127,8 @@ public class EditFile extends BookList{
 
         Scanner sc = new Scanner(System.in);
         Scanner sc1 = new Scanner(System.in);
-        System.out.println("1 - Search by barcode \n2 - Search by title ");
+        System.out.println("To delete an item select: ");
+        System.out.println("1 - To search by barcode \n2 - To search by title ");
         System.out.print("Enter option: ");
         option = sc.nextInt();
         System.out.println();
