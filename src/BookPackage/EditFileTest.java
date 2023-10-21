@@ -74,7 +74,18 @@ class EditFileTest {
         testArray.add(testBook);
 
         int sz = testArray.size();
-        UpdateTestArray(sz);
+        try {
+            FileWriter file = new FileWriter("BookListTest.txt");
+            Writer out = new BufferedWriter(file);
+            for (int i=0; i<sz; i++) {
+                out.write(testArray.get(i).toString() + ("\n"));
+            }
+            out.close();
+            file.close();
+            System.out.println("File updated.");
+        } catch (IOException fos) {
+            System.out.println("fos error.");
+        }
         for (BookList a : testArray) {
             System.out.println(a);
         }
@@ -127,9 +138,9 @@ class EditFileTest {
         //num = input.nextInt();
         //String item = String.valueOf(num);
         String item = "150";
-        int i;
-        for (i=0; i<testArray.size(); i++) {
-            String[] array = String.valueOf(testArray.get(i)).split(",");
+        int j;
+        for (j=0; j<testArray.size(); j++) {
+            String[] array = String.valueOf(testArray.get(j)).split(",");
             for(String a : array) {
                 if (Objects.equals(a, item)) {
                     bookOut.setBarcode(item);
@@ -147,7 +158,6 @@ class EditFileTest {
                     String auth = bookOut.getAuthor();
                     String stat = bookOut.getStatus();
                     String dte = bookOut.getDueDate();
-                    String[] bookUpdate = new String[]{cde,tle,auth,stat,dte};
 
                     testArray.removeIf(obj -> Objects.equals(obj.getBarcode(), item));
 
@@ -155,7 +165,19 @@ class EditFileTest {
                     testBook.editBookList(cde,tle,auth,stat,dte);
                     testArray.add(testBook);
 
-                    UpdateTestArray(sz);
+
+                    try {
+                        FileWriter file = new FileWriter("BookListTest.txt");
+                        Writer out = new BufferedWriter(file);
+                        for (int i=0; i<sz; i++) {
+                            out.write(testArray.get(i).toString() + ("\n"));
+                        }
+                        out.close();
+                        file.close();
+                        System.out.println("File updated.");
+                    } catch (IOException fos) {
+                        System.out.println("fos error.");
+                    }
                 }
             }
         }
@@ -182,9 +204,9 @@ class EditFileTest {
      //   num = input.nextInt();
     //    String item = String.valueOf(num);
         String item = "150";
-        int i;
-        for (i=0; i<testArray.size(); i++) {
-            String[] array = String.valueOf(testArray.get(i)).split(",");
+        int j;
+        for (j=0; j<testArray.size(); j++) {
+            String[] array = String.valueOf(testArray.get(j)).split(",");
             for(String a : array) {
                 if (Objects.equals(a, item)) {
                     bookIn.setBarcode(item);
@@ -209,7 +231,18 @@ class EditFileTest {
                     testBookIn.editBookList(cde,tle,auth,stat,dte);
                     testArray.add(testBookIn);
 
-                    UpdateTestArray(sz);
+                    try {
+                        FileWriter file = new FileWriter("BookListTest.txt");
+                        Writer out = new BufferedWriter(file);
+                        for (int i=0; i<sz; i++) {
+                            out.write(testArray.get(i).toString() + ("\n"));
+                        }
+                        out.close();
+                        file.close();
+                        System.out.println("File updated.");
+                    } catch (IOException fos) {
+                        System.out.println("fos error.");
+                    }
                 }
             }
         }
@@ -220,19 +253,4 @@ class EditFileTest {
                 "The CheckInTest failed to update items in the arrayList");
     }
 
-    private static void UpdateTestArray(int sz) {
-
-        try {
-            FileWriter file = new FileWriter("BookListTest.txt");
-            Writer out = new BufferedWriter(file);
-            for (int i=0; i<sz; i++) {
-                out.write(testArray.get(i).toString() + ("\n"));
-            }
-            out.close();
-            file.close();
-            System.out.println("File updated.");
-        } catch (IOException fos) {
-            System.out.println("fos error.");
-        }
-    }
 }
