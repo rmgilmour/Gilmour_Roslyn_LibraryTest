@@ -1,4 +1,5 @@
-package BookPackage; /**
+package BookPackage;
+/*
  * File Name: 	LibraryTest.java
  * Author:     	Roslyn Gilmour
  * Course:		CEN-3024C
@@ -129,7 +130,7 @@ public class BookList{
         this.dueDate = dueDate;
     }
 
-}
+} // end BookList class
 
 
 

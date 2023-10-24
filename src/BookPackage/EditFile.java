@@ -111,7 +111,7 @@ public class EditFile extends BookList{
 
         int sz = booksArray.size();
         UpdateArray(sz);
-
+        System.out.println("File Updated.");
     }
     /**
      * void method to request the array, obtain from the user
@@ -147,6 +147,7 @@ public class EditFile extends BookList{
 
         int sz = booksArray.size();
         UpdateArray(sz);
+        System.out.println("File Updated");
 
     } // end deleteItem
 
@@ -166,9 +167,9 @@ public class EditFile extends BookList{
         String toDate = String.valueOf(newDate);
 
         int num;
-        Scanner input = new Scanner(System.in);
+        Scanner scOut = new Scanner(System.in);
         System.out.print("Enter barcode to checkout: ");
-        num = input.nextInt();
+        num = scOut.nextInt();
         String item = String.valueOf(num);
         int i;
         for (i=0; i<booksArray.size(); i++) {
@@ -180,17 +181,12 @@ public class EditFile extends BookList{
                     book.setAuthor(String.valueOf(array[2]));
                     book.setStatus("Out");
                     book.setDueDate(toDate);
-                    System.out.println("Checking out: \n"
-                            + "Barcode: " + book.getBarcode() +"\nTitle: "+ book.getTitle() +"  Author: "
-                            + book.getAuthor() +"\nStatus: "+ book.getStatus()
-                            +"        Due Date: "+ book.getDueDate());
-                    int sz = booksArray.size();
+
                     String cde = book.getBarcode();
                     String tle = book.getTitle();
                     String auth = book.getAuthor();
                     String stat = book.getStatus();
                     String dte = book.getDueDate();
-                    String[] bookUpdate = new String[]{cde,tle,auth,stat,dte};
 
                     booksArray.removeIf(obj -> Objects.equals(obj.getBarcode(), item));
 
@@ -198,10 +194,12 @@ public class EditFile extends BookList{
                     newBook.editBookList(cde,tle,auth,stat,dte);
                     booksArray.add(newBook);
 
+                    int sz = booksArray.size();
                     UpdateArray(sz);
                 }
             }
         }
+        System.out.println("File Updated.");
     } // end checkout
 
     /**
@@ -216,9 +214,9 @@ public class EditFile extends BookList{
         BookList book = new BookList();
 
         int num;
-        Scanner input = new Scanner(System.in);
+        Scanner scIn = new Scanner(System.in);
         System.out.print("Enter barcode to check in: ");
-        num = input.nextInt();
+        num = scIn.nextInt();
         String item = String.valueOf(num);
         int i;
         for (i=0; i<booksArray.size(); i++) {
@@ -231,29 +229,24 @@ public class EditFile extends BookList{
                     book.setStatus("In");
                     book.setDueDate("null");
 
-                    int sz = booksArray.size();
                     String cde = book.getBarcode();
                     String tle = book.getTitle();
                     String auth = book.getAuthor();
                     String stat = book.getStatus();
                     String dte = book.getDueDate();
-                //    String[] bookUpdate = new String[]{cde,tle,auth,stat,dte};
 
                     booksArray.removeIf(obj -> Objects.equals(obj.getBarcode(), item));
 
-                    BookList newBook = new BookList();
-                    newBook.editBookList(cde,tle,auth,stat,dte);
-                    booksArray.add(newBook);
+                    //BookList newBook = new BookList();
+                    book.editBookList(cde,tle,auth,stat,dte);
+                    booksArray.add(book);
 
-                    System.out.println("Item Checking In: \n");
-                    System.out.println("Barcode: " + book.getBarcode() +"\nTitle: "+ book.getTitle() +"  Author: "
-                            + book.getAuthor() +"\nStatus: "+ book.getStatus()
-                            +"        Due Date: "+ book.getDueDate());
-
+                    int sz = booksArray.size();
                     UpdateArray(sz);
                 }
             }
         }
+        System.out.println("File Updated.");
     } // end checkin
 
     /**
@@ -270,24 +263,12 @@ public class EditFile extends BookList{
             }
             output.close();
             fw.close();
-            System.out.println("File updated.");
+
         } catch (IOException fos) {
             System.out.println("fos error.");
         }
     }
 
-    /**
-     * Void method to override the BookList Method
-     * @param barcode       Parameter to hold the due date
-     * @param title         Parameter to hold the title
-     * @param author        Parameter to hold the author
-     * @param status        Parameter to hold the status
-     * @param dueDate       Parameter to hold the dueDate
-     */
-    @Override
-    public void editBookList(String barcode, String title, String author, String status, String dueDate) {
-        super.editBookList(barcode, title, author, status, dueDate);
-    }
 } // end BookPackage.FileList
 
 
